@@ -1,3 +1,3 @@
 My-Reddit
 
-Feed do reddit usando Json para Mobile.
+Feed do reddit usando JSON para Mobile.
