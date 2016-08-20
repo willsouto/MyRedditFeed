@@ -8,6 +8,7 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- Moment *time manipulator* -->
     <script src="lib/moment/moment.js"></script>
     <script src="lib/angular-moment/angular-moment.js"></script>
     <script src="cordova.js"></script>
@@ -15,24 +16,39 @@
 
   </head>
   <body ng-app="myreddit" ng-controller="RedditCtrl">
+
+    <!-- Pane start *simple container* -->
     <ion-pane>
+      <!-- top bar *header* -->
       <ion-header-bar class="bar-calm">
-        <h1 class="title">My Reddit</h1>
+        <h1 class="title">/r/funny</h1>
       </ion-header-bar>
+      <!-- top bar END -->
+      <!-- content area -->
       <ion-content>
+      <!-- refresh no pull up -->
+      <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="loadNewerStories()">
+      </ion-refresher>
+      <!-- Div lista Reddit -->
         <div class="list">
-          <a  class="item item-thumbnail-left" href="{{story.url}}" target="_blank" ng-repeat="story in stories">
-          <img ng-src="{{story.thumbnail}}" ng-if="story.thumbnail.startsWith('http')">
-            <h2 class="story-title">{{story.title}}</h2> 
+          <a  class="item item-thumbnail-left" ng-click="openLink(story.url)" href="{{story.url}}" target="_blank" ng-repeat="story in stories track by story.id">
+          <img ng-src="{{story.thumbnail}}" >
+            <h2 class="story-title">{{story.title}}</h2>
+            <!-- tempo e domain -->
             <p>
             <span am-time-ago="story.created_utc" am-preprocess="unix"></span>
-              
               - {{story.domain}}
             </p>
           </a>
         </div>
-        </div>
+        <!-- Div lista Reddit END -->
+        <!-- pull older stories no scroll down -->
+        <ion-infinite-scroll on-infinite="loadOlderStories()" distance="1%">
+        </ion-infinite-scroll>
       </ion-content>
+      <!-- content area END -->
     </ion-pane>
   </body>
 </html>
